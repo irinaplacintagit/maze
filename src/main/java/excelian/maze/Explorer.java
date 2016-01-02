@@ -18,9 +18,8 @@ public class Explorer {
 	
 	private void explore(Maze maze, Coordinate current) {
 		
-		if(MazeUnitType.END.equals(current)) {
+		if(MazeUnitType.END.equals(maze.getMaze().get(current))) {
 			movement.add(current);
-			System.out.println("found the end");
 			return;
 		}
 		if (!maze.getMaze().containsKey(current)) {
@@ -29,65 +28,41 @@ public class Explorer {
 		
 		movement.add(current);
 		
-		MazeUnitType up = getComponentUp(maze, current);
-		if ((MazeUnitType.SPACE.equals(up) || (MazeUnitType.END.equals(up)))  &&
-				!movement.contains(new Coordinate(current.getX() - 1, current.getY()))) {
-			explore(maze, moveUp(current));
+		Coordinate upPoint = new Coordinate(current.getX() - 1, current.getY());
+		MazeUnitType up = getComponent(maze, upPoint);
+		if (isValidMove(up, upPoint)) {
+			explore(maze, upPoint);
 		}
 		
-		MazeUnitType down = getComponentDown(maze, current);
-		if ((MazeUnitType.SPACE.equals(down) || (MazeUnitType.END.equals(down)))  &&
-			!movement.contains(new Coordinate(current.getX() + 1, current.getY()))) {
-			explore(maze, moveDown(current));
+		Coordinate downPoint = new Coordinate(current.getX() + 1, current.getY());
+		MazeUnitType down = getComponent(maze, downPoint);
+		if (isValidMove(down, downPoint)) {
+			explore(maze, downPoint);
 		}
 		
-		MazeUnitType left = getComponentToLeft(maze, current);
-		if ((MazeUnitType.SPACE.equals(left) || (MazeUnitType.END.equals(left)))  &&
-			!movement.contains(new Coordinate(current.getX(), current.getY() - 1))) {
-			explore(maze, turnLeft(current));
+		Coordinate leftPoint = new Coordinate(current.getX(), current.getY() - 1);
+		MazeUnitType left = getComponent(maze, leftPoint);
+		if (isValidMove(left, leftPoint)) {
+			explore(maze, leftPoint);
 		}
 		
-		MazeUnitType right = getComponentToRight(maze, current);
-		if ((MazeUnitType.SPACE.equals(right) || (MazeUnitType.END.equals(right)))  &&
-			!movement.contains(new Coordinate(current.getX(), current.getY() + 1))) {
-			explore(maze, turnRight(current));
+		Coordinate rightPoint = new Coordinate(current.getX(), current.getY() + 1);
+		MazeUnitType right = getComponent(maze, rightPoint);
+		if (isValidMove(right, rightPoint)) {
+			explore(maze, rightPoint);
 		}
 	}
-
-	private Coordinate moveUp(Coordinate current) {
-		Coordinate newPosition = new Coordinate(current.getX() - 1, current.getY());
-		return newPosition;
+	
+	private MazeUnitType getComponent(Maze maze, Coordinate point) {
+		return maze.getPoint(point.getX(), point.getY());
 	}
 	
-	private Coordinate moveDown(Coordinate current) {
-		Coordinate newPosition = new Coordinate(current.getX() + 1, current.getY());
-		return newPosition;
-	}
-
-	private Coordinate turnLeft(Coordinate current) {
-		Coordinate newPosition = new Coordinate(current.getX(), current.getY() - 1);
-		return newPosition;
-	}
-	
-	private Coordinate turnRight(Coordinate current) {
-		Coordinate newPosition = new Coordinate(current.getX(), current.getY() + 1);
-		return newPosition;
-	}
-	
-	private MazeUnitType getComponentUp(Maze maze, Coordinate current) {
-		return maze.getPoint(current.getX() - 1, current.getY());
-	}
-	
-	private MazeUnitType getComponentDown(Maze maze, Coordinate current) {
-		return maze.getPoint(current.getX() + 1, current.getY());
-	}
-	
-	private MazeUnitType getComponentToLeft(Maze maze, Coordinate current) {
-		return maze.getPoint(current.getX(), current.getY() - 1);
-	}
-	
-	private MazeUnitType getComponentToRight(Maze maze, Coordinate current) {
-		return maze.getPoint(current.getX(), current.getY() + 1);
+	private boolean isValidMove(MazeUnitType unitType, Coordinate coordinate) {
+		return (MazeUnitType.SPACE.equals(unitType) || MazeUnitType.END.equals(unitType))
+				&& !movement.contains(coordinate);
 	}
 
+	public List<Coordinate> getMovement() {
+		return movement;
+	}
 }

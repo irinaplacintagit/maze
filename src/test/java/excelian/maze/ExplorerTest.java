@@ -1,6 +1,10 @@
 package excelian.maze;
 
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
+
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import org.junit.Before;
@@ -34,7 +38,14 @@ public class ExplorerTest {
 		mazeMap.put(new Coordinate(4,2), MazeUnitType.END);
 		mazeMap.put(new Coordinate(4,3), MazeUnitType.WALL);
 		Maze maze = new Maze(mazeMap);
-		System.out.println(explorer.exploreMaze(maze));
+		
+		explorer.exploreMaze(maze);
+		List<Coordinate> path = explorer.getMovement();
+		assertEquals(4, path.size());
+		assertEquals(new Coordinate(1,2), path.get(0));
+		assertEquals(new Coordinate(2,2), path.get(1));
+		assertEquals(new Coordinate(3,2), path.get(2));
+		assertEquals(new Coordinate(4,2), path.get(3));
 	}
 	
 	@Test
@@ -81,7 +92,13 @@ public class ExplorerTest {
 		mazeMap.put(new Coordinate(5,3), MazeUnitType.WALL);
 		
 		Maze maze = new Maze(mazeMap);
-		System.out.println(explorer.exploreMaze(maze));
+		explorer.exploreMaze(maze);
+		List<Coordinate> path = explorer.getMovement();
+		assertEquals(new Coordinate(1,2), path.get(0));
+		assertEquals(new Coordinate(2,8), path.get(path.size() - 1));
+		assertTrue(path.size() > 5);
+		assertTrue(path.contains(new Coordinate(2, 2)));
+		assertTrue(path.contains(new Coordinate(3, 2)));
+		assertTrue(path.contains(new Coordinate(4, 2)));
 	}
-
 }
