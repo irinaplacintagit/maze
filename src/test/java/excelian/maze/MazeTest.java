@@ -62,8 +62,14 @@ public class MazeTest {
 		assertEquals(MazeUnitType.END, maze.getPoint(4, 2));
 	}
 	
+	@Test
 	public void testGetPointInvalid() {
 		assertNull(maze.getPoint(0, 1));
 		assertNull(maze.getPoint(1, 5));
+	}
+	
+	@Test
+	public void getStartPoint() {
+		assertEquals(new Coordinate(1,2), maze.getStartPoint());
 	}
 }

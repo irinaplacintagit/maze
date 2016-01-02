@@ -22,10 +22,6 @@ public class Maze {
 	public Map<Coordinate, MazeUnitType> getMaze() {
 		return maze;
 	}
-
-	public void setMaze(Map<Coordinate, MazeUnitType> maze) {
-		this.maze = maze;
-	}
 	
 	public int getWalls() {
 		return walls;

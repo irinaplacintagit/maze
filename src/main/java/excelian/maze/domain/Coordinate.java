@@ -46,6 +46,6 @@ public class Coordinate {
 	}
 	@Override
 	public String toString() {
-		return "Coordinate [x=" + x + ", y=" + y + "]";
+		return "Coordinate [" + x + "," + y + "]";
 	}
 }
